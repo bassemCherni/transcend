@@ -1,0 +1,86 @@
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="col-md-5">
+            <h4>
+                Road-Map:
+            </h4>
+        </div>
+    </div>
+    <!-- the epics -->
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-5">
+            <h5>Epic:</h5>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-11" *ngIf="affiliation.role === 'p.o'">
+            <button class="btn btn-primary" (click)="createEpic(null)" style="margin-left: 870px;">
+                create epic
+            </button>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-11" *ngIf="!(epics.length > 0)">
+            <div class="offset-3">
+                <h4 style="color: gray;">No epics in this project</h4>
+            </div>
+        </div>
+
+        <div class="col-md-11">
+            <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel *ngFor="let epic of epics">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title class="col-md-3">
+                            {{epic.title}}
+                        </mat-panel-title>
+                        <mat-panel-description class="col-md-5">
+                            {{epic.description}}
+                        </mat-panel-description>
+                        <div class="theme-epic e{{epic.id_epic % 22}} "></div>
+                    </mat-expansion-panel-header>
+
+
+                    <div *ngIf="affiliation.role === 'p.o'" class="row">
+                        <div class="col-md-3 offset-11">
+                            <button mat-icon-button (click)="createEpic(epic.id_epic)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="example-list">
+                        <div class="example-box" *ngFor="let issue of epic.issues">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <img src="assets/issue/{{issue.type}}.svg" class="issue-icon">
+                                </div>
+                                <div class="col-md-3">
+                                    {{issue.title}}
+                                </div>
+                                <div class="col-md-3 offset-5">
+                                    {{issue.status}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+
+
+    </div>
+    <br>
+    <br>
+</div>

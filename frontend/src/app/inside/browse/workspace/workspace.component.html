@@ -1,0 +1,122 @@
+<div class="container">
+    <div class="row">
+        <br>
+        <div class="col-md-12"></div>
+        <div class="col-md-11">
+            <div class="d-flex align-items-end justify-content-between">
+                <div class=" p-2 bd-highlight">
+                    <h5>Workspace</h5>
+                </div>
+                <div class=" p-2 bd-highlight">
+                    <button class="btn btn-primary btn-sm" (click)="createWorksapce()">
+                        Create workspace
+                        <i class="fa fa-plus"></i>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="d-flex align-items-end justify-content-between">
+                <div class=" p-2 bd-highlight">
+                    <mat-form-field class="">
+                        <mat-label>Search workspace</mat-label>
+                        <input matInput [(ngModel)]="search" placeholder="workspace">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class=" p-2 bd-highlight">
+                    <mat-form-field>
+                        <mat-label>role</mat-label>
+                        <mat-select [(ngModel)]="selectedRole">
+                            <mat-option *ngFor="let role of roles" [value]="role">
+                                {{role}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--workspace table-->
+    <div class="row">
+        <br>
+        <div class="col-md-12"></div>
+        <div class="col-md-8">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Role</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="(affiliations | workspaceFilter:search:selectedRole) as result">
+                        <tr *ngFor="let affiliation of result">
+                            
+                                <td (click)="navigateTo(affiliation.workSpace.id_work_space)" class="hover-list">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <img src="assets/avatar/avatar{{affiliation.workSpace.logo}}.svg"
+                                                class="w-logo">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <span> {{affiliation.workSpace.name}}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                            <td>{{affiliation.role}}</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="offset-5 config-menu">
+                                            <button mat-icon-button [matMenuTriggerFor]="menu"
+                                                aria-label="Example icon-button with a menu">
+                                                <mat-icon>more_horiz</mat-icon>
+                                            </button>
+                                            <mat-menu #menu="matMenu">
+                                                <button mat-menu-item *ngIf="affiliation.role=='admin'"
+                                                    (click)="renameWorksapce(affiliation)">
+                                                    <mat-icon>edit</mat-icon>
+                                                    <span>Change name</span>
+                                                </button>
+                                                <button mat-menu-item *ngIf="affiliation.role=='admin'"
+                                                    (click)="archiveWorksapce(affiliation)">
+                                                    <mat-icon>delete</mat-icon>
+                                                    <span>Delete workspace</span>
+                                                </button>
+                                                <button mat-menu-item *ngIf="affiliation.role!='admin'"
+                                                    (click)="quitWorksapce(affiliation)">
+                                                    <mat-icon>highlight_off</mat-icon>
+                                                    <span>Quit workspace</span>
+                                                </button>
+                                            </mat-menu>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <div *ngIf="result.length==0" role="alert">
+                            <br>
+                            <div class="card alert alert-secondary offset-4" style="width: 18rem;">
+                                <div class="card-body">
+                                  <h4 class="card-text">No items to show in this list!!</h4>
+                                </div>
+                              </div>
+                        </div>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

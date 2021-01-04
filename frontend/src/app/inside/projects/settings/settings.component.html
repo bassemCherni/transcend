@@ -1,0 +1,78 @@
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="col-md-5">
+            <h4>
+                Burndown-chart:
+            </h4>
+        </div>
+        <div class="col-md-5 offset-2">
+            <h4>
+                Feed:
+            </h4>
+        </div>
+    </div>
+    <div class="row">
+        <!-- chart and list of sprints -->
+        <div class="col-md-6" style="padding: 10px;">
+            <div class="row">
+                <!-- chart -->
+                <div class="col-md-12">
+                    <app-burndown-chart [idProject]="idProject"></app-burndown-chart>
+                </div>                
+            </div>
+            <br>
+            <div class="row">
+                
+                <div class="col-md-12">
+                    <h4>
+                        Project sprints:
+                    </h4>
+                </div>
+                
+                <div class="col-md-12" style="margin-top: 10px;">
+                    <mat-accordion class="example-headers-align" multi >
+                        <mat-expansion-panel *ngFor="let sprint of sprints">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title class="col-md-3">
+                                    sp: {{sprint.title}}
+                                </mat-panel-title>
+                                <mat-panel-description class="col-md-5">
+                                    status: {{sprint.status}}
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+        
+                            <div class="example-list">
+                                <div class="example-box" *ngFor="let issue of sprint.issues">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <img src="assets/issue/{{issue.type}}.svg" class="issue-icon">
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{issue.title}}
+                                        </div>
+                                        <div class="col-md-3 offset-5">
+                                            {{issue.status}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>      
+        
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+
+                <div *ngIf="sprints.length === 0" class="col-md-12">
+                    <div class="card" style=" display: inline-block;">
+                        <span class="gray">
+                            this project has no sprints..
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+        </div>
+    </div>
+
+</div>

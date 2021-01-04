@@ -1,0 +1,51 @@
+.profile-pic {
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid rgb(61, 58, 58);
+}
+
+.infos {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.icon {
+    font-size: x-large;
+    color: rgb(110, 108, 108);
+    margin-right: 5px;
+}
+
+.title {
+    width: 300px;
+    margin-left: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.field {
+    border: 0px;
+    background-color: rgb(240, 239, 239);
+}
+
+.hint {
+    color: rgb(145, 144, 144);
+}
+
+.example-tab-icon {
+    margin-right: 8px;
+}
+
+::ng-deep.notification {
+    width:1000 !important;
+    height: 20px !important;
+}
+
+::ng-deep.success {
+background-color: #5aca74;
+}
+
+::ng-deep.failure {
+background-color: #cc362c;
+}

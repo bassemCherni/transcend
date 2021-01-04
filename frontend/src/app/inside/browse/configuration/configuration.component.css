@@ -1,0 +1,133 @@
+.title {
+    font-size: x-large;
+    font-weight: 400;
+}
+
+
+
+::ng-deep.notification {
+    width: 800px !important;
+    height: 20px !important;
+}
+
+::ng-deep.success {
+    background-color: #5aca74;
+}
+
+::ng-deep.failure {
+    background-color: #cc362c;
+}
+
+.scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;    
+}
+
+.cards {
+    display: inline-block;
+    margin: 20px;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+
+.scrolling-wrapper {
+    -webkit-overflow-scrolling: auto;
+}
+
+#scroll::-webkit-scrollbar-track {
+    background: rgba(250, 248, 248, 0.541);        /* color of the tracking area */
+}
+
+.h10 {
+    background-color: orange;
+}
+
+.h5 {
+    background-color: orange;
+}
+
+.h16 {
+    background-color: #fcba03;
+}
+
+.h17 {
+    background-color: #fcba03;
+}
+
+.h1 {
+    background-color: #a9fc03;
+}
+
+.h7 {
+    background-color: #04d904;
+}
+
+.h18 {
+    background-color: #0dd67c;
+}
+
+.h14 {
+    background-color: #0dd6b5;
+}
+
+.h8 {
+    background-color: #0a92d1;
+}
+
+.h15 {
+    background-color: #1e7cc9;
+}
+
+.h2 {
+    background-color: #17299c;
+}
+
+.h9 {
+    background-color: #4e169c;
+}
+
+.h13 {
+    background-color: #9a44c2;
+}
+
+.h6 {
+    background-color: #6a0599;
+}
+
+.h4 {
+    background-color: #6a0599;
+}
+
+.h12 {
+    background-color: #bf154e;
+}
+
+.h19 {
+    background-color: #bf154e;
+}
+
+.h11 {
+    background-color: #bf154e;
+}
+
+.h3 {
+    background-color: #d1061b;
+}
+
+.h21 {
+    background-color: #d1061b;
+}
+
+.h24 {
+    background-color: #d1061b;
+}
+
+.h22 {
+    background-color: #bf154e;
+}
+
+.h23 {
+    background-color: #04d904;
+}

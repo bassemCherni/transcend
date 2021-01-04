@@ -1,0 +1,41 @@
+<button class="close-dialog" (click)="close(false)" mdDialogActions>
+    <span class="material-icons">
+        close
+    </span>
+</button>
+
+<mat-form-field style="width: 250px;">
+    <input matInput  placeholder="Search" aria-label="State" [matAutocomplete]="auto" [formControl]="search">
+    <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+        <ng-container *ngIf="!isLoading">
+            <mat-option *ngFor="let account of accounts" style="height: 70px!important;" (click)="selectAssignee(account)"
+                [value]="account.id_user.user_name">
+
+                <div class="row">
+                    <div class="col-md-2 align-self-center">
+                        <img class="assignee" src="{{account.id_user.profile_pic}}" alt="">
+                    </div>
+
+                    <div class="col-md-4 align-content-center " >
+                        <span style="float: left; clear: left; margin-bottom: -10px;">
+                            {{account.id_user.user_name + ' ' + account.id_user.last_name}}
+                        </span>
+                        <span class="tags " style="float: left; clear: left; margin-top: -10px;">
+                            {{account.email}}
+                        </span>
+                    </div>
+                   
+                </div>
+            </mat-option>
+        </ng-container>
+    </mat-autocomplete>
+</mat-form-field>
+
+<mat-checkbox style="margin-left: 10px;" (click)="selectAssignee(null)" class="example-margin" [color]="'primary'">unassigne</mat-checkbox>
+
+<div class="row">
+    <div class="col-md-3 offset-8">
+        <a class="btn btn-light" (click)="close(false)" mdDialogActions>cancel</a>
+    </div>
+</div>

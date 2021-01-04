@@ -1,0 +1,44 @@
+
+.tags {
+    font-size: 12px;
+    font-style: italic;
+    color: #c6c6c6;
+    margin-right: 10px;
+    position: relative;
+    top: -10px;
+  }
+  
+  
+  
+  .close-dialog {
+    background-color: white; 
+    border: 0px; 
+    float: right;
+    width: 20px;
+    height: 20px;
+    margin-top: -20px;
+    margin-right: -10px;
+  }
+  
+  
+  .assignee {
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid rgb(61, 58, 58);
+  }
+
+  ::ng-deep.notification {
+    width: 800px !important;
+    height: 20px !important;
+  }
+
+  ::ng-deep.success {
+    background-color: #5aca74;
+  }
+
+  ::ng-deep.failure {
+    background-color: #cc362c;
+  }
+  

@@ -1,0 +1,140 @@
+<mat-sidenav-container class="sidenav-container" [hasBackdrop]="false">
+  <mat-sidenav #drawer class="sidenav theme-color-3 " fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false">
+    <mat-toolbar class="gray" >
+      <div class="row">
+        <div class="col-md-12">
+          <a class="go-back" routerLink="/platform/browse/workspace"> <i class="fa fa-chevron-left"></i> browse projects</a>
+        </div>
+
+        <div class="col-md-12" >
+          <div *ngFor="let membershipResponse of membershipResponses">
+            <div class="row" *ngIf="membershipResponse.project.id_project == id_project">
+              <div class="col-md-2">
+                <img src="assets/project/project{{membershipResponse.project.logo}}.svg" class="w-logo">
+              </div>
+              <div class="col-md-5">
+                <span> {{membershipResponse.project.title}}</span>
+              </div>
+              <div class="col-md-2">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                  <mat-icon>expand_more</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                  <button mat-menu-item *ngFor="let membershipResponse of membershipResponses"
+                    routerLink="/platform/projects/{{membershipResponse.project.id_project}}/backlog">
+                    <div class="row">
+                      <div class="col-md-1">
+                        <img src="assets/project/project{{membershipResponse.project.logo}}.svg" class="w-logo">
+                      </div>
+                      <div class="col-md-6">
+                        <span> {{membershipResponse.project.title}}</span>
+                      </div>
+                    </div>
+                  </button>
+                </mat-menu>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- select project -->
+    </mat-toolbar>
+
+    <mat-nav-list>
+      <br>
+      <!--icon-->
+      <div mat-list-item class="menu-button2">
+        <a mat-list-item routerLink="road-map" routerLinkActive="active-link2"
+          (click)="handsetToggle(drawer, isHandset$ )">
+          <span class="material-icons menu-icons2">
+            dynamic_feed
+          </span>
+          <span class="gray link-menu">road-map</span> </a>
+      </div>
+
+      <div mat-list-item class="menu-button2">
+        <a mat-list-item routerLink="backlog" routerLinkActive="active-link2"
+          (click)="handsetToggle(drawer, isHandset$ )">
+          <span class="material-icons menu-icons2">
+            list_alt
+          </span>
+          <span class="gray link-menu">Backlog</span>
+        </a>
+      </div>
+      <div mat-list-item class="menu-button2">
+        <a mat-list-item routerLink="board" routerLinkActive="active-link2"
+          (click)="handsetToggle(drawer, isHandset$ )">
+          <span class="material-icons menu-icons2">
+            developer_board
+          </span>
+          <span class="gray link-menu">Board</span> </a>
+      </div>
+      <div mat-list-item class="menu-button2">
+        <a mat-list-item routerLink="people" routerLinkActive="active-link2"
+          (click)="handsetToggle(drawer, isHandset$ )">
+          <span class="material-icons menu-icons2">
+            group
+          </span>
+          <span class="gray link-menu">people</span> </a>
+      </div>
+
+      <div mat-list-item class="menu-button2">
+        <a mat-list-item routerLink="dashboard" routerLinkActive="active-link2"
+          (click)="handsetToggle(drawer, isHandset$ )">
+          <span class="material-icons menu-icons2">
+            dashboard
+          </span>
+          <span class="gray link-menu">dashboard</span> </a>
+      </div>
+    </mat-nav-list>
+
+    <mat-grid-list cols="2" rowHeight="1:1">      
+      <mat-grid-tile></mat-grid-tile>
+      <mat-grid-tile></mat-grid-tile>
+      <mat-grid-tile>
+        <button mat-button [matMenuTriggerFor]="menu">
+          <div mat-card-avatar class="example-header-image" #avatar>
+          </div>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/platform/browse/profile">profile</button>
+          <button mat-menu-item (click)="signOut()">sign out</button>
+        </mat-menu>
+
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <svg class="bi bi-bell-fill menu-icons2" viewBox="0 0 16 16" fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M8 16a2 2 0 002-2H6a2 2 0 002 2zm.995-14.901a1 1 0 10-1.99 0A5.002 5.002 0 003 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" />
+        </svg>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-sidenav>
+
+
+  <mat-sidenav-content class="over-shadow">   
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <ng-container *ngIf="affiliated; else elseTemplate">
+        <router-outlet></router-outlet>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <br>
+        <div class="col-md-5 offset-2">
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading"><i class="fa fa-exclamation-triangle"></i>unauthorised!!</h4>
+            <p>you are not a member of this project</p>
+            <hr>
+            <p class="mb-0">try to reconnect to solve this problem.</p>
+          </div>
+        </div>
+      </ng-template>
+
+    <!-- Add Content Here -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

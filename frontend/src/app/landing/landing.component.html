@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <nav class="navbar navbar-expand-lg navbar-light ">
+          <a class="navbar-brand " routerLink="/home" >
+            <img src="assets/images/logo2.png" style="width: 200px; height: 100px;">
+            <!--<h3 class="theme-color offset-1" style="font-size: 40px;">Trenscend</h3>-->
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link"  href="#"> <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"  href="#"></a>
+              </li>
+              
+            </ul>
+  
+            <ul class="navbar-nav ">
+              <li class="nav-item mr-sm-2">
+                <a class="nav-link"  routerLink="contact">contact us</a>
+              </li>
+              <li class="nav-item mr-sm-2">
+                <span class="nav-link" disabled href="#"></span>
+              </li>
+              <li class="nav-item mr-sm-2">
+                <a class="nav-link"  routerLink="sign-in">sign in</a>
+              </li>
+              <li class="nav-item mr-sm-2">
+                <span class="nav-link"  href="#">|</span>
+              </li>
+              <li class=" my-2 my-sm-0">
+                <a class=" btn btn-outline-primary shadow" style="border-radius: 50px;" routerLink="create-account">create account?</a>
+              </li>
+            </ul>
+            
+          </div>
+        </nav>
+      </div>
+    </div>
+  
+   <router-outlet></router-outlet>
+  </div>

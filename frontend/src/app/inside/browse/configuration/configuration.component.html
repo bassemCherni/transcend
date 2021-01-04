@@ -1,0 +1,168 @@
+<ng-container *ngIf="affiliated; else elseTemplate1">
+  <div class="container">
+    <br>
+    <div class="row">
+      <div class="col-md-10 offset-md-0">
+        <div class="row">
+          <div class="col-md-4">
+            <img src="assets/avatar/avatar{{affiliation.workSpace.logo}}.svg" class="w-logo">
+            <span class="title"> {{affiliation.workSpace.name}}: </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button *ngIf="manager" class="btn btn-primary btn-sm" (click)="newProject()">
+          new project
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-5 offset-md-0">
+        <h5 style="color: gray;">favorites: </h5>
+      </div>
+    </div>
+
+    <div class="scrolling-wrapper" id="scroll">
+      <br>
+      <ng-container *ngFor="let ms of membershipResponses">
+        <a *ngIf="ms.favorite" (click)="navigateTo(ms.project.id_project)" class="hover-list">
+          <div class="cards shadow">
+            <div class="card " style="width: 12rem; ">
+              <img src="assets/project/project{{ms.project.logo}}.svg" class="card-img-top h{{ms.project.logo}}"
+                style="width: 12rem; height: 5rem;">
+              <div class="card-body" style="width: 12rem; height: 3rem;">
+                <h6 class="card-text" style="margin-top: -15px;">{{ms.project.title}}</h6>
+                <p class="card-text" style="margin-top: -10px; color: gray;">{{ms.project.descreption | slice:0:20}}...
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+      </ng-container>
+
+    </div>
+
+    <br>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="d-flex align-items-end justify-content-between">
+          <div class=" p-2 bd-highlight">
+            <mat-form-field class="">
+              <mat-label>Search projects</mat-label>
+              <input matInput [(ngModel)]="search" placeholder="project">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="row">
+
+      <div class="col-md-12">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">project</th>
+              <th scope="col">descreption</th>
+              <th scope="col">starts</th>
+              <th scope="col">due</th>
+              <th scope="col">status</th>
+              <th scope="col">favorits</th>
+              <th *ngIf="manager" scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="(membershipResponses | projectFilter:search) as result">
+              <tr *ngFor="let membershipResponse of result">
+                
+                <td (click)="navigateTo(membershipResponse.project.id_project)" class="hover-list">
+                  <div class="row">
+                    <div class="col-md-1">
+                      <img src="assets/project/project{{membershipResponse.project.logo}}.svg" class="w-logo">
+                    </div>
+                    <div class="col-md-6">
+                      <span> {{membershipResponse.project.title}}</span>
+                    </div>
+                  </div>
+                </td>
+                
+                <td>{{membershipResponse.project.descreption}}</td>
+                <td>{{membershipResponse.project.starting_date | date}}</td>
+                <td>{{membershipResponse.project.due_date | date}}</td>
+                <td>{{membershipResponse.project.status }}</td>
+                <td>
+                  <div class="config-menu">
+                    <ng-container *ngIf="membershipResponse.favorite; else elseTemplate">
+                      <button mat-icon-button (click)="favorit(membershipResponse)">
+                        <mat-icon class="star star-fav">star</mat-icon>
+                      </button>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                      <button mat-icon-button (click)="favorit(membershipResponse)">
+                        <mat-icon class="star">star_border</mat-icon>
+                      </button>
+                    </ng-template>
+                  </div>
+                  
+                </td>
+                <td *ngIf="affiliation.role=='p.o'">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="offset-5">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                          <mat-icon>more_horiz</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                          <button mat-menu-item 
+                            (click)="renameProject(membershipResponse)">
+                            <mat-icon>edit</mat-icon>
+                            <span>Change name</span>
+                          </button>
+                          <button mat-menu-item 
+                            (click)="archiveProject(membershipResponse)">
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete project</span>
+                          </button>
+                        </mat-menu>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </td>
+              </tr>
+              <div *ngIf="result.length==0" role="alert">
+                <br>
+                <div class="card alert alert-secondary offset-4" style="width: 18rem;">
+                  <div class="card-body">
+                    <h4 class="card-text">No items to show in this list!!</h4>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #elseTemplate1>
+  <br>
+  <div class="row">
+    <div class="col-md-6 offset-2">
+      <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading"><i class="fa fa-exclamation-triangle"></i>unauthorised!!</h4>
+        <p>you are not affiliate nor administrator of this workspace</p>
+        <hr>
+        <p class="mb-0">try to reconnect to solve this problem.</p>
+      </div>
+    </div>
+  </div>
+</ng-template>

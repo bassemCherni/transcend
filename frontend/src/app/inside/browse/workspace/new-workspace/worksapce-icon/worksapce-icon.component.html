@@ -1,0 +1,17 @@
+<mat-grid-list cols="4" rowHeight="110px">
+    <ng-container *ngIf="data.origins=='project'; else elseTemplate">
+        <mat-grid-tile *ngFor="let icon of PIcons">
+            <a class="icon-butt hover-list" (click)="setIcon(icon)">
+                <img src="assets/project/project{{icon}}.svg" class="icon-class" >
+            </a>
+        </mat-grid-tile>
+    </ng-container>
+    <ng-template #elseTemplate>
+         <mat-grid-tile *ngFor="let icon of wIcons">
+        <a class="icon-butt hover-list" (click)="setIcon(icon)">
+            <img src="assets/avatar/avatar{{icon}}.svg" class="icon-class" >
+        </a>
+    </mat-grid-tile>
+    </ng-template>   
+   
+</mat-grid-list>

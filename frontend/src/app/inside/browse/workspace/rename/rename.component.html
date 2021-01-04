@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Rename {{ws_name}}: </h1>
+<form #f="ngForm" (ngSubmit)="f.form.valid && rename()">
+    <div mat-dialog-content>
+        <mat-form-field>
+            <mat-label>new name</mat-label>
+            <input matInput [(ngModel)]="newName" required name="newName">
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-flat-button color="primary" type="submit">rename</button>
+        <a class="btn btn-light" style="margin-left: 10px;" (click)="close()">cancel</a>
+    </div>
+</form>

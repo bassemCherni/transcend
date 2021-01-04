@@ -1,0 +1,341 @@
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="col-md-5">
+            <h4>
+                Backlog: 
+            </h4>
+        </div>
+    </div>
+    <!-- the sprints -->
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-5">
+            <h5>Sprint:</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-11" *ngIf="affiliation.role == 's.m'">
+            <ng-container *ngIf="activeSprint!= null; else elseTemplate">
+                <button class="btn btn-secondary" (click)="completeSprint()" style="margin-left: 870px;">complete sprint</button>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <button class="btn btn-primary" (click)="startSprint()" style="margin-left: 910px;">start sprint</button>
+            </ng-template>
+
+        </div>
+    </div>
+    <br>
+
+    <!-- drag and drop container -->
+    <div cdkDropListGroup>
+        <div class="row">
+            <div class="col-md-11">
+                <div class="offset-3" *ngIf="activeSprint== null && empty">
+                    <h4 style="color: gray;">No sprints in this project</h4>
+                </div>
+                <mat-accordion class="example-headers-align" multi>
+                    <!-- active sprint -->
+                    <mat-expansion-panel *ngIf="activeSprint!= null">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                sp{{activeSprint.index}}: {{activeSprint.title}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                {{activeSprint.description}}                                
+                            </mat-panel-description>
+                            <mat-icon class="active-sprint">
+                                play_arrow
+                            </mat-icon>
+                        </mat-expansion-panel-header>
+                        <div class="row" *ngIf="affiliation.role == 's.m'">
+                            <div class="col-md-1 offset-11">                               
+                                <button mat-icon-button 
+                                        [matMenuTriggerFor]="menuActive"                                         
+                                        aria-label="Example icon-button with a menu">
+                                    <mat-icon>more_vert</mat-icon>
+                                  </button>
+                                  <mat-menu #menuActive="matMenu">
+                                    <button mat-menu-item (click)="createOrUpdateSprint(activeSprint.id_sprint, 'active')">
+                                      <mat-icon>edit</mat-icon>
+                                      <span>edit sprint</span>
+                                    </button>
+                                    <button mat-menu-item (click)="deleteSprint(activeSprint)">
+                                      <mat-icon>delete</mat-icon>
+                                      <span>delete sprint</span>
+                                    </button>                                    
+                                  </mat-menu>
+                                  
+                            </div>                            
+                        </div>
+                        <div class="example-list">
+                            <div class="example-box" *ngFor="let item of activeSprint.issues" >
+                                <div class="row">
+                                    <!-- issue type -->
+                                    <div class="col-md-1">
+                                        <img src="assets/issue/{{item.type}}.svg" class="issue-icon">
+                                    </div>
+                                    <div class="col-md-3">
+                                        {{item.title}}
+                                    </div>
+                                    <!-- epic -->
+                                    <div *ngIf="item.epic !== null" class="col-md-2 offset-3">
+                                        <span class="epic e{{item.epic.id_epic % 22}}">
+                                            {{item.epic.title}}
+                                        </span>
+                                    </div>
+                                    <!-- the assignee if exists -->
+                                    <ng-container *ngIf="item.assignee !== null; else notAssigned">
+                                        <div class="col-md-1 offset-1">
+                                            <img class="assignee" src="{{item.assignee.id_user.profile_pic }}">
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #notAssigned>
+                                        <div class="col-md-2 offset-0">
+                                            <span class="gray">un-assigned</span>
+                                        </div>                                        
+                                    </ng-template>                                   
+                                    
+                                    <!-- menu if p.o -->
+                                    <div *ngIf="affiliation.role == 'p.o'" class=" offset-0 config-menu" >
+                                        <button mat-icon-button [matMenuTriggerFor]="menu2" aria-label="Example icon-button with a menu">
+                                            <mat-icon >more_horiz</mat-icon>
+                                        </button>
+                                        <mat-menu #menu2="matMenu">
+                                            <button mat-menu-item (click)="createOrUpdateIssue(item.id_issue, idProject, 'active')">
+                                                <mat-icon>edit</mat-icon>
+                                                <span>modify</span>
+                                            </button>
+                                            <button mat-menu-item (click)="deleteIssue(item)">
+                                                <mat-icon>delete</mat-icon>
+                                                <span>delete</span>
+                                            </button>
+                                        </mat-menu>                                    
+                                    </div>
+                                    <!-- assigne issue if s.m -->
+                                    <div *ngIf="affiliation.role == 's.m'" class=" offset-0 config-menu" >
+                                        <button mat-icon-button (click)="assigneIssue(item)">
+                                            <mat-icon>assignment_ind</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+
+                    <!-- none active sprints -->
+                    <mat-expansion-panel *ngFor="let sprint of sprints">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                sp{{sprint.index}}: {{sprint.title}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                {{sprint.description}}
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="row" *ngIf="affiliation.role == 's.m'">
+                            <div class="col-md-1 offset-11">
+                                <button mat-icon-button [matMenuTriggerFor]="menuOther">
+                                    <mat-icon >more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menuOther="matMenu">
+                                    <button mat-menu-item (click)="createOrUpdateSprint(sprint.id_sprint, null)">
+                                      <mat-icon>edit</mat-icon>
+                                      <span>edit sprint</span>
+                                    </button>
+                                    <button mat-menu-item (click)="deleteSprint(sprint)">
+                                      <mat-icon>delete</mat-icon>
+                                      <span>delete sprint</span>
+                                    </button>                                    
+                                  </mat-menu>
+                            </div>                            
+                        </div>
+
+                        <ng-container *ngIf="affiliation.role == 's.m'; else notScrumMaster">
+                            <div cdkDropList [cdkDropListData]="sprint.issues" class="example-list"
+                                (cdkDropListDropped)="drop($event)" id="s{{sprint.id_sprint}}">
+                                <div class="example-box" *ngFor="let item of sprint.issues" cdkDrag>
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <img src="assets/issue/{{item.type}}.svg" class="issue-icon">
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{item.title}}
+                                        </div>
+                                        <!-- epic -->
+                                        <div *ngIf="item.epic !== null" class="col-md-2 offset-5">
+                                            <span class="epic e{{item.epic.id_epic % 22}}">
+                                                {{item.epic.title}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-template #notScrumMaster>
+                            <div cdkDropList [cdkDropListData]="sprint.issues" class="example-list"
+                                (cdkDropListDropped)="drop($event)" id="s{{sprint.id_sprint}}">
+                                <div class="example-box" *ngFor="let item of sprint.issues" >
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <img src="assets/issue/{{item.type}}.svg" class="issue-icon">
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{item.title}}
+                                        </div>
+                                        <!-- epic -->
+                                        <div *ngIf="item.epic !== null" class="col-md-2 offset-5">
+                                            <span class="epic e{{item.epic.id_epic % 22}}">
+                                                {{item.epic.title}}
+                                            </span>
+                                        </div>
+                                        <div *ngIf="affiliation.role == 'p.o'" class=" offset-0 config-menu" >
+                                            <button mat-icon-button [matMenuTriggerFor]="menu2" aria-label="Example icon-button with a menu">
+                                                <mat-icon >more_horiz</mat-icon>
+                                            </button>
+                                            <mat-menu #menu2="matMenu">
+                                                <button mat-menu-item (click)="createOrUpdateIssue(item.id_issue, idProject, 'other')">
+                                                    <mat-icon>edit</mat-icon>
+                                                    <span>modify</span>
+                                                </button>
+                                                <button mat-menu-item (click)="deleteIssue(item)">
+                                                    <mat-icon>delete</mat-icon>
+                                                    <span>delete</span>
+                                                </button>                                                                                              
+                                            </mat-menu>                                               
+                                            
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+            </div>
+        </div>
+        <!-- the product backlog -->
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-5">
+                <h5>Product Backlog:</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-11">
+                <button class="btn btn-secondary" 
+                        style="margin-left: 880px;" 
+                        (click)="createOrUpdateIssue(null, idProject, 'backlog')"
+                        *ngIf="affiliation.role == 'p.o'">
+                            create issue
+                            <i class="fa fa-plus"></i>
+                </button>
+                <button class="btn btn-secondary" (click)="createOrUpdateSprint(null, null)" style="margin-left: 880px;" *ngIf="affiliation.role == 's.m'">
+                    create sprint
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-11">
+                <mat-accordion class="example-headers-align" multi>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                backlog items
+                            </mat-panel-title>
+                            
+                        </mat-expansion-panel-header>
+
+                        <ng-container *ngIf="affiliation.role == 's.m'; else notScrumMaster1">
+                            <div cdkDropList [cdkDropListData]="projectIssues" class="example-list"
+                                (cdkDropListDropped)="drop($event)" id="backlog">
+                                <div class="example-box" *ngFor="let issue of projectIssues" cdkDrag>
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <img src="assets/issue/{{issue.type}}.svg" class="issue-icon">
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{issue.title}}
+                                        </div> 
+                                        <!-- epic -->
+                                        <div *ngIf="issue.epic !== null" class="col-md-2 offset-5">
+                                            <span class="epic e{{issue.epic.id_epic % 22}}">
+                                                {{issue.epic.title}}
+                                            </span>
+                                        </div>                                                                               
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-template #notScrumMaster1>
+                            <div cdkDropList [cdkDropListData]="projectIssues" class="example-list"
+                                (cdkDropListDropped)="drop($event)" id="backlog">
+                                <div class="example-box" *ngFor="let issue of projectIssues">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <img src="assets/issue/{{issue.type}}.svg" class="issue-icon">
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{issue.title}}
+                                        </div>
+                                        <!-- epic -->
+                                        <div class="col-md-2 offset-5">
+                                            <span *ngIf="issue.epic !== null" class="epic e{{issue.epic.id_epic % 22}}">
+                                                {{issue.epic.title}}
+                                            </span>
+                                        </div>  
+                                        <div *ngIf="affiliation.role == 'p.o'" class=" offset-0 config-menu" >
+                                            <button mat-icon-button [matMenuTriggerFor]="menu2" aria-label="Example icon-button with a menu">
+                                                <mat-icon >more_horiz</mat-icon>
+                                            </button>
+                                            <mat-menu #menu2="matMenu">
+                                                <button mat-menu-item (click)="createOrUpdateIssue(issue.id_issue, idProject, 'backlog')">
+                                                    <mat-icon>edit</mat-icon>
+                                                    <span>modify</span>
+                                                </button>
+                                                <button mat-menu-item (click)="deleteIssue(issue)">
+                                                    <mat-icon>delete</mat-icon>
+                                                    <span>delete</span>
+                                                </button>  
+                                                <button mat-menu-item [matMenuTriggerFor]="listEpic">
+                                                    <mat-icon>dynamic_feed</mat-icon>
+                                                    <span>epic</span>
+                                                </button>                                                
+                                            </mat-menu>
+                                               <!-- epic list -->
+                                            <mat-menu #listEpic="matMenu">
+                                                <button mat-menu-item (click)="setEpic(issue, null)">
+                                                    <span class="gray">
+                                                        none
+                                                    </span>
+                                                </button>
+                                                <button mat-menu-item *ngFor="let epic of epics" (click)="setEpic(issue, epic)">
+                                                    <span class="epic e{{epic.id_epic % 22}}">
+                                                        {{epic.title}}
+                                                    </span>
+                                                </button>
+                                            </mat-menu>   
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+
+</div>

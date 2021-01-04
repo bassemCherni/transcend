@@ -1,0 +1,141 @@
+<div class="container">
+    <br>
+    <!-- workspace -->
+    <div class="row">
+        <div class="col-md-2">
+            <h5>
+                Workspace:
+            </h5>
+        </div>
+        <div class="col-md-3" >
+            <div class="card" 
+            style="padding-left: 10px; padding-right: 10px; width: 200px;"
+            *ngIf="affiliations !== null" >
+                <div>
+                    <img src="assets/avatar/avatar{{(aff |async).workSpace.logo}}.svg" class="w-logo">
+                    <span> {{(aff |async).workSpace.name}}</span>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" style="margin-left: 30px;">
+                        <mat-icon>expand_more</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu" xPosition="before">
+                        <button mat-menu-item *ngFor="let affiliation of affiliations" (click)="selectWs(affiliation)">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <img src="assets/avatar/avatar{{affiliation.workSpace.logo}}.svg" class="w-logo">
+                                </div>
+                                <div class="col-md-6">
+                                    <span> {{affiliation.workSpace.name}}</span>
+                                </div>
+                            </div>
+                        </button>
+                    </mat-menu>
+
+                </div>
+
+            </div>
+            <h6 class="gray" *ngIf="affiliations === null">
+                You're not affiliated in any workspace!
+            </h6>
+        </div>
+
+    </div>
+    <br>
+    <!-- add people -->
+    <div class="row">
+        <div class="col-md-2">
+            <h5 style="margin-top: 10px;">
+                add people:
+            </h5>
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-form-field style="width: 200px;">
+                        <input matInput  placeholder="Search" aria-label="State" [matAutocomplete]="auto" [formControl]="search">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let account of accounts" style="height: 70px!important;" (click)="selectMember(account)"
+                                    [value]="account.id_user.user_name">
+                    
+                                    <div class="row">
+                                        <div class="col-md-2 align-self-center">
+                                            <img class="assignee" src="{{account.id_user.profile_pic}}" alt="">
+                                        </div>
+                    
+                                        <div class="col-md-4 align-content-center " >
+                                            <span style="float: left; clear: left; margin-bottom: -10px;">
+                                                {{account.id_user.user_name + ' ' + account.id_user.last_name}}
+                                            </span>
+                                            <span class="tags " style="float: left; clear: left; margin-top: -10px;">
+                                                {{account.email}}
+                                            </span>
+                                        </div>
+                                       
+                                    </div>
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-9">
+                    <mat-form-field >
+                        <mat-label>role</mat-label>
+                        <mat-select [(ngModel)]="role">
+                          <mat-option (click)="check()" value="s.m">Scrum master: s.m</mat-option>
+                          <mat-option (click)="check()" value="p.o" >Product owner: p.o</mat-option>
+                          <mat-option (click)="check()" value="dev">Developer: dev</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!-- add button -->
+                    <button [disabled]="!(checked | async)" (click)="addMember()" class="btn btn-primary" style="margin-left: 30px;">
+                        <i class="fa fa-plus"></i> add member
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <!-- list of members -->
+    <div class="row">
+        <div class="col-md-2">
+            <h5>
+                List of members:
+            </h5>
+        </div>
+        <div class="col-md-6">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>name</th>
+                        <th>role</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                    
+                <tbody>
+                    <tr *ngFor="let member of members">
+                        <td>
+                            <div class="row">
+                                <div class="col-md-2 align-self-center">
+                                    <img class="assignee" src="{{member.account.id_user.profile_pic}}" alt="">
+                                </div>
+            
+                                <div class="col-md-4 align-content-center " >
+                                    <span style="float: left; clear: left; margin-bottom: -10px;">
+                                        {{member.account.id_user.user_name + ' ' + member.account.id_user.last_name}}
+                                    </span>
+                                </div>
+                               
+                            </div>
+                        </td>
+                        <td>{{member.role}}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

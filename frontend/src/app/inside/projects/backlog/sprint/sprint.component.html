@@ -1,0 +1,122 @@
+<button class="close-dialog" (click)="close(false)" mdDialogActions>
+    <span class="material-icons">
+        close
+    </span>
+</button>
+
+<form name="form" #f="ngForm" (ngSubmit)="f.form.valid && createSprint()">
+    <div class="row">
+        <div class="col-md-6 offset-1">
+            <mat-form-field>
+                <mat-label>sprint title</mat-label>
+                <input matInput placeholder="sprint title" name="sprintTitle" [(ngModel)]="sprint.title" #title=ngModel
+                    [ngClass]="{'is-invalid': f.submitted && title.invalid}" required>
+                <div *ngIf="f.submitted && title.invalid">
+                    <div *ngIf="title.errors?.required" class="invalid">field is required!</div>
+                </div>
+            </mat-form-field>
+            
+            <mat-form-field>
+                <mat-label>description</mat-label>
+                <textarea matInput
+                          #desc=ngModel
+                          name="desc"
+                          [(ngModel)]="sprint.description"                          
+                          >
+                </textarea>                
+            </mat-form-field>
+            <!-- for activating sprint/active sprint -->
+            <ng-container *ngIf="data.status !== null">
+                <!-- active sprint -->
+                <ng-container *ngIf="data.status === 'active'; else toActivate">
+                    <mat-form-field>
+                        <mat-label>starting date</mat-label>
+                        <input matInput 
+                            #start=ngModel
+                            [matDatepicker]="picker1" 
+                            [(ngModel)]="startingDate" 
+                            name="startingDate" 
+                            disabled                                                       
+                            >
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+    
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>due date</mat-label>
+                        <input matInput
+                            #due=ngModel
+                            [matDatepicker]="picker2"
+                            [(ngModel)]="dueDate" 
+                            [min]="startingDate" 
+                            name="dueDate"
+                            [ngClass]="{'is-invalid': f.submitted && due.invalid}"
+                            required
+                            >
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+    
+                        <div *ngIf="f.submitted && due.invalid">
+                            <div *ngIf="due.errors?.required" class="invalid">field is required!</div>
+                        </div>
+                    </mat-form-field>
+                </ng-container>
+                <!-- for a sprint to be activated -->
+                <ng-template #toActivate>
+                    <mat-form-field>
+                        <mat-label>starting date</mat-label>
+                        <input matInput 
+                            #start=ngModel
+                            [matDatepicker]="picker1" 
+                            [(ngModel)]="today" 
+                            name="startingDate"
+                            disabled
+                            >
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>due date</mat-label>
+                        <input matInput
+                            #due=ngModel
+                            [matDatepicker]="picker2"
+                            [(ngModel)]="dueDate" 
+                            [min]="today" 
+                            name="dueDate"
+                            [ngClass]="{'is-invalid': f.submitted && due.invalid}"
+                            required
+                            >
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+    
+                        <div *ngIf="f.submitted && due.invalid">
+                            <div *ngIf="due.errors?.required" class="invalid">field is required!</div>
+                        </div>
+                    </mat-form-field>
+                </ng-template>
+
+                
+            </ng-container>
+            
+
+           
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 offset-1">
+            <ng-container *ngIf="sprint.id_sprint !== null; else createBtn">
+                <button class="btn btn-primary" type="submit" mdDialogActions>update</button>
+            </ng-container>
+            <ng-template #createBtn>
+                <button class="btn btn-primary" type="submit" mdDialogActions>create</button>
+            </ng-template> 
+        </div>
+
+        <div class="col-md-3 offset-md-1">
+            <a class="btn btn-light" (click)="close(false)" mdDialogActions>cancel</a>
+        </div>
+    </div>
+</form>

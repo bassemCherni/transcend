@@ -1,0 +1,246 @@
+<div  class="container">
+    <br>
+    <div class="row">
+        <div class="col-md-5">
+            <h4>
+                Board:
+            </h4>
+        </div>
+    </div>
+    <!-- the sprints -->
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-5">
+            <h5 *ngIf="activeSprint !== null">Sprint: <span class="gray" style="font-size: medium;">{{activeSprint.title}}</span></h5>
+            <h5 *ngIf="activeSprint === null">Sprint: <span class="gray" style="font-size: medium;">no active sprint</span></h5>
+        </div>
+    </div>
+    <br>
+    <div class="row" cdkDropListGroup>
+        <!-- if role is dev drag and drop -->
+        <ng-container *ngIf="affiliation.role === 'dev'; else notDev">
+            <div class="col-md-4 ">
+                <div class="example-container status-container">
+                    <span class="offset-5 status-title">TO DO</span>
+                    <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="toDo" id="todo"
+                        class="example-list" (cdkDropListDropped)="drop($event)">
+                        <div class="example-box" *ngFor="let issue of toDo" cdkDrag>
+                            <div class="row">                            
+                                <div class="col-md-10">
+                                    {{issue.title}}
+                                </div>
+                                <div class="col-md-1 ">
+                                    <span *ngIf="issue.story_point !== null" class="badge badge-info">
+                                        {{issue.story_point}}
+                                    </span>                                
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <img src="assets/issue/{{issue.type}}.svg" class="issue-icon">
+                                </div>
+                                <!-- epic -->
+                                <div class="col-md-5    ">
+                                    <span  *ngIf="issue.epic !== null" class="epic e{{issue.epic.id_epic % 22}}">
+                                        {{issue.epic.title}}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-4 ">
+                <div class="example-container status-container">
+                    <span class="offset-4 status-title">IN PROGRESS</span>
+                    
+                    <div cdkDropList #prog="cdkDropList" [cdkDropListData]="inProgress" id="inProgress"
+                        class="example-list" (cdkDropListDropped)="drop($event)">
+                        <div class="example-box" *ngFor="let issue of inProgress" cdkDrag>
+                            <div class="row">                            
+                                <div class="col-md-10">
+                                    {{issue.title}}
+                                </div>
+                                <div class="col-md-1 ">
+                                    <span *ngIf="issue.story_point !== null" class="badge badge-info">
+                                        {{issue.story_point}}
+                                    </span>                                
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <img src="assets/issue/{{issue.type}}.svg" class="issue-icon">
+                                </div>
+                                <!-- epic -->
+                                <div class="col-md-5 ">
+                                    <span  *ngIf="issue.epic !== null" class="epic e{{issue.epic.id_epic % 22}}">
+                                        {{issue.epic.title}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-4 ">
+                <div class="example-container status-container">
+                    <span class="offset-5 status-title">DONE</span>
+        
+                    <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="done" id="done"
+                        class="example-list" (cdkDropListDropped)="drop($event)">
+                        <div class="example-box" *ngFor="let issue of done" cdkDrag>
+                            <div class="row">                            
+                                <div class="col-md-10">
+                                    {{issue.title}}
+                                </div>
+                                <div class="col-md-1 ">
+                                    <span *ngIf="issue.story_point !== null" class="badge badge-info">
+                                        {{issue.story_point}}
+                                    </span>                                
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <img src="assets/issue/{{issue.type}}.svg" class="issue-icon">
+                                </div>
+                                <!-- epic -->
+                                <div class="col-md-5 ">
+                                    <span  *ngIf="issue.epic !== null" class="epic e{{issue.epic.id_epic % 22}}">
+                                        {{issue.epic.title}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <!-- if role not dev -->
+        <ng-template #notDev>
+            <div class="col-md-4 ">
+                <div class="example-container status-container">
+                    <span class="offset-5 status-title">TO DO</span>
+                    <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="toDo" 
+                        class="example-list" (cdkDropListDropped)="drop($event)">
+                        <div class="example-box" *ngFor="let issue of toDo" >
+                            <div class="row">                            
+                                <div class="col-md-10">
+                                    {{issue.title}}
+                                </div>
+                                <div class="col-md-1 ">
+                                    <span *ngIf="issue.story_point !== null" class="badge badge-info">
+                                        {{issue.story_point}}
+                                    </span>                                
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <img src="assets/issue/{{issue.type}}.svg" class="issue-icon">
+                                </div>
+                                <!-- epic -->
+                                <div class="col-md-5 ">
+                                    <span  *ngIf="issue.epic !== null" class="epic e{{issue.epic.id_epic % 22}}">
+                                        {{issue.epic.title}}
+                                    </span>
+                                </div>
+                                <div *ngIf="issue.assignee !== null" class="col-md-1 offset-3">
+                                    <img class="assignee" src="{{issue.assignee.id_user.profile_pic}}">
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-4 ">
+                <div class="example-container status-container">
+                    <span class="offset-4 status-title">IN PROGRESS</span>
+                    
+                    <div cdkDropList #prog="cdkDropList" [cdkDropListData]="inProgress" 
+                        class="example-list" (cdkDropListDropped)="drop($event)">
+                        <div class="example-box" *ngFor="let issue of inProgress" >
+                            <div class="row">                            
+                                <div class="col-md-10">
+                                    {{issue.title}}
+                                </div>
+                                <div class="col-md-1 ">
+                                    <span *ngIf="issue.story_point !== null" class="badge badge-info">
+                                        {{issue.story_point}}
+                                    </span>                                
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <img src="assets/issue/{{issue.type}}.svg" class="issue-icon">
+                                </div>
+                                <!-- epic -->
+                                <div class="col-md-5 ">
+                                    <span  *ngIf="issue.epic !== null" class="epic e{{issue.epic.id_epic % 22}}">
+                                        {{issue.epic.title}}
+                                    </span>
+                                </div>
+                                <div *ngIf="issue.assignee !== null" class="col-md-1 offset-3">
+                                    <img class="assignee" src="{{issue.assignee.id_user.profile_pic}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-4 ">
+                <div class="example-container status-container">
+                    <span class="offset-5 status-title">DONE</span>
+        
+                    <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="done" 
+                        class="example-list" (cdkDropListDropped)="drop($event)">
+                        <div class="example-box" *ngFor="let issue of done" >
+                            <div class="row">                            
+                                <div class="col-md-10">
+                                    {{issue.title}}
+                                </div>
+                                <div class="col-md-1 ">
+                                    <span *ngIf="issue.story_point !== null" class="badge badge-info">
+                                        {{issue.story_point}}
+                                    </span>                                
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <img src="assets/issue/{{issue.type}}.svg" class="issue-icon">
+                                </div>
+                                <!-- epic -->
+                                <div class="col-md-5 ">
+                                    <span  *ngIf="issue.epic !== null" class="epic e{{issue.epic.id_epic % 22}}">
+                                        {{issue.epic.title}}
+                                    </span>
+                                </div>
+                                <div *ngIf="issue.assignee !== null" class="col-md-1 offset-3">
+                                    <img class="assignee" src="{{issue.assignee.id_user.profile_pic}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+    <br>
+</div>

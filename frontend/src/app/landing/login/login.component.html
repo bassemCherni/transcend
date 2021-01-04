@@ -1,0 +1,58 @@
+<div class="row" style="margin-top:20px;">
+    <div class="col-md-4 offset-4 ">
+        <div class="card shadow-lg" style="border-radius: 7px;">
+            <div class="card-body" >
+                <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && check()" >
+                    <h1 class="offset-3">Sign in</h1>
+                    <br>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" 
+                            class="form-control" 
+                            id="email" 
+                            aria-describedby="emailHelp"
+                            name="email"
+                            [(ngModel)]="email"
+                            #email1="ngModel"
+                            [ngClass]="{'is-invalid': f.submitted && email1.invalid}"
+                            required email                      
+                            >
+                        
+                        <!-- email validation error-->
+                        <div *ngIf="f.submitted && email1.invalid">
+                            <div *ngIf="email1.errors?.required" class="invalid">email is required!</div>
+                            <div *ngIf="email1.errors?.email" class="invalid">this is not a valid email!</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input 
+                            type="password" 
+                            class="form-control" 
+                            id="exampleInputPassword1"
+                            name="password"
+                            [(ngModel)]="password"
+                            #password1="ngModel"
+                            [ngClass]="{'is-invalid': f.submitted && password1.invalid}"
+                            required minlength="6"
+                            >
+                        <!--pass validation-->
+                        <div *ngIf="f.submitted && password1.invalid">
+                            <div *ngIf="password1.errors?.minlength" class="invalid">password should be at least 6 caracters</div>
+                            <div *ngIf="password1.errors?.required" class="invalid">password should not be empty!</div>
+                        </div>
+                    </div>
+                   
+                    <!--password or email incorrect-->
+                    <div class="alert alert-danger small"  role="alert" *ngIf="notification!=null">
+                        {{notification}}
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                    <br>
+                </form>
+            </div>
+        </div>
+        <br>
+    </div>
+</div>

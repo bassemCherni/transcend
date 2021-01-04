@@ -1,0 +1,417 @@
+<div class="container">
+    <br>
+    <mat-tab-group>
+        <mat-tab>
+            <!-- icon -->
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">account_circle</mat-icon>
+                Profile
+            </ng-template>
+            <!-- template -->
+            <br>
+            <div class="container">
+                <br>
+                <div class="row">
+                    <!-- picture and update -->
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <ng-container *ngIf="account.id_user.profile_pic !== null && this.account.id_user.profile_pic !== ''; else elseTemplate">
+                                    <img src="{{account.id_user.profile_pic}}" class="profile-pic">
+                                </ng-container>
+                                <ng-template #elseTemplate>
+                                    <img src="assets/images/default-avatar.png" class="profile-pic">
+                                </ng-template>
+
+
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6" style="display: inline-flex;" #userName>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4 class="title">{{account.id_user.user_name}} {{account.id_user.last_name}}
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button mat-icon-button (click)="disable(userName1, userNameUpdate1)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div hidden class="col-md-6" #userNameUpdate>
+                                <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && updateName()">
+                                    <input class="form-control title field" matInput type="text" placeholder="name"
+                                        name="name" [(ngModel)]="UserName" #name="ngModel"
+                                        [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" required>
+                                    <!-- input validation group -->
+                                    <div *ngIf="f.submitted && name.invalid">
+                                        <!-- individual validation errors -->
+                                        <div *ngIf="name.errors?.required" class="invalid">name is required</div>
+                                    </div>
+                                    <input class="form-control title field" matInput style="margin-top: 10px;"
+                                        type="text" placeholder="last name" name="lastname" [(ngModel)]="UserLastname"
+                                        #lastname="ngModel"
+                                        [ngClass]="{ 'is-invalid': f.submitted && lastname.invalid }" required>
+                                    <!-- input validation group -->
+                                    <div *ngIf="f.submitted && lastname.invalid">
+                                        <!-- individual validation errors -->
+                                        <div *ngIf="lastname.errors?.required" class="invalid">name is required</div>
+                                    </div>
+                                    <button mat-icon-button type="submit">
+                                        <mat-icon>done</mat-icon>
+                                    </button>
+                                    <button mat-icon-button type="reset" (click)="disable(userNameUpdate1, userName1)">
+                                        <mat-icon>clear</mat-icon>
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div *ngIf="percentage | async as pct">
+                            <progress [value]="pct" max="100"></progress>
+                            {{ pct | number }}%
+                        </div>
+                        <div *ngIf="snapshot | async as snap"></div>
+                        <br>
+                        <div class="row" #select>
+                            <div class="col-md-6">
+                                <label class="btn btn-primary btn-file">
+                                    change picture <input type="file" style="display: none;"
+                                        (change)="selectImg($event)">
+                                </label>
+                            </div>
+                        </div>
+                        <div hidden class="row" #saveImg>
+                            <div class="col-md-6">
+                                <button class="btn btn-primary" (click)="onUpload()" #uploadBTN>save change</button>
+                                <button class="btn btn-light " style="margin-left: 10px;"
+                                    (click)="cancelChange()">cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- infos update -->
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card" style="width: 30rem;">
+                                    <div class="card-body" style="width: 30rem;">
+                                        <h5 class="card-title">About</h5>
+                                        <div class="row">
+                                            <div class="col-md-12 infos" #occup>
+                                                <div class="row">
+                                                    <div class="col-md-1">
+                                                        <i class="fa fa-briefcase icon"></i>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <ng-container
+                                                            *ngIf="account.id_user.occupation !== null; else occupTemplate">
+                                                            <span class="title">{{account.id_user.occupation}}</span>
+                                                        </ng-container>
+                                                        <ng-template #occupTemplate>
+                                                            <div class="title field">
+                                                                <span class="hint">your occupation</span>
+                                                            </div>
+                                                        </ng-template>
+
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button mat-icon-button (click)="disable(occup1, occupChange1)">
+                                                            <mat-icon>edit</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div hidden class="col-md-12 infos" #occupChange>
+                                                <i class="fa fa-briefcase icon"></i>
+                                                <input class="title field" type="text" placeholder="your occupation"
+                                                    value="{{account.id_user.occupation}}" name="ocup"
+                                                    [(ngModel)]="occupation">
+                                                <button mat-icon-button (click)="changeOccup()">
+                                                    <mat-icon>done</mat-icon>
+                                                </button>
+                                                <button mat-icon-button (click)="disable(occupChange1, occup1)">
+                                                    <mat-icon>clear</mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 infos" #organisation>
+                                                <div class="row">
+                                                    <div class="col-md-1">
+                                                        <i class="fa fa-building icon"></i>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <ng-container
+                                                            *ngIf="account.id_user.organization !== null; else orgTemplate">
+                                                            <span class="title">{{account.id_user.organization}}</span>
+                                                        </ng-container>
+                                                        <ng-template #orgTemplate>
+                                                            <div class="title field">
+                                                                <span class="hint">your organization</span>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button mat-icon-button
+                                                            (click)="disable(organisation1, organisationChange1)">
+                                                            <mat-icon>edit</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div hidden class="col-md-12 infos" #organisationChange>
+                                                <i class="fa fa-building icon"></i>
+                                                <input class="title field" type="text" placeholder="your organization"
+                                                    name="org" value="{{account.id_user.organization}}"
+                                                    [(ngModel)]="organization">
+                                                <button mat-icon-button (click)="changeOrg()">
+                                                    <mat-icon>done</mat-icon>
+                                                </button>
+                                                <button mat-icon-button
+                                                    (click)="disable(organisationChange1, organisation1)">
+                                                    <mat-icon>clear</mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-md-12 infos" #phone>
+                                                <div class="row">
+                                                    <div class="col-md-1">
+                                                        <i class="fa fa-phone icon"></i>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <ng-container
+                                                            *ngIf="account.id_user.tel_num !== null; else telTemplate">
+                                                            <span class="title">{{account.id_user.tel_num}}</span>
+                                                        </ng-container>
+                                                        <ng-template #telTemplate>
+                                                            <div class="title field">
+                                                                <span class="hint">your phone</span>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button mat-icon-button (click)="disable(phone1, phoneChange1)">
+                                                            <mat-icon>edit</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div hidden class="col-md-12 infos" #phoneChange>
+                                                <i class="fa fa-phone icon"></i>
+                                                <input class="title field" type="text" placeholder="your phone"
+                                                    value="{{account.id_user.tel_num}}" name="telephone"
+                                                    [(ngModel)]="tel">
+                                                <button mat-icon-button (click)="changeTel()">
+                                                    <mat-icon>done</mat-icon>
+                                                </button>
+                                                <button mat-icon-button (click)="disable(phoneChange1, phone1)">
+                                                    <mat-icon>clear</mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <!-- icon -->
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">email</mat-icon>
+                Email
+            </ng-template>
+            <!-- template -->
+            <div class="container">
+                <br>
+                <div class="row">
+                    <div class="col-md-3 offset-2 ">
+                        <span style="font-weight: bold;">change email</span>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-5 offset-2">
+                        <span>your current email address is <b>{{account.email}}</b></span>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-6 offset-2">
+                        <div class="alert alert-warning" role="alert">
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <span style="margin-left: 10px;">enter your current password to change your email.</span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-6 offset-2">
+                        <form name="emailForm" #fE="ngForm" (ngSubmit)="fE.form.valid && changeEmail()">
+                            <div class="form-group">
+                                <label >Password</label>
+                                <input type="password" 
+                                       class="form-control" 
+                                       placeholder="password" 
+                                       name="pass"
+                                       [(ngModel)]="pass"
+                                       #password="ngModel"
+                                       [ngClass]="{'is-invalid': fE.submitted && password.invalid}"
+                                       required minlength="6">
+                                       <!--pass validation-->
+                                <div *ngIf="fE.submitted && password.invalid">
+                                    <div *ngIf="password.errors?.minlength" class="invalid">password should be at least 6 caracters</div>
+                                    <div *ngIf="password.errors?.required" class="invalid">password should not be empty!</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label >Email address</label>
+                                <input type="email"
+                                       class="form-control" 
+                                       placeholder="your new email"
+                                       aria-describedby="emailHelp"
+                                       name="Email"
+                                       [(ngModel)]="email"
+                                       #email1="ngModel"
+                                       [ngClass]="{'is-invalid': fE.submitted && email1.invalid}"
+                                       required email>   
+                                <!-- email validation error-->
+                                <div *ngIf="fE.submitted && email1.invalid">
+                                    <div *ngIf="email1.errors?.required" class="invalid">email is required!</div>
+                                    <div *ngIf="email1.errors?.email" class="invalid">this is not a valid email!</div>
+                                </div>                            
+                            </div>
+                            
+                            <!--password or email incorrect-->
+                            <div class="alert alert-danger small"  role="alert" *ngIf="emailNotif!=null">
+                                {{emailNotif}}
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">change</button>
+                            <button hidden type="reset" class="btn btn-primary" #resetPass>reste</button>
+                        </form>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <!-- icon -->
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">security</mat-icon>
+                Security
+            </ng-template>
+            <!-- content -->
+            <div class="container">
+                <br>
+                <div class="row">
+                    <div class="col-md-3 offset-2 ">
+                        <span style="font-weight: bold;">change password</span>
+                    </div>
+                </div>
+                <br>                
+
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-6 offset-2">
+                        <div class="alert alert-warning" role="alert">
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <span style="margin-left: 10px;">enter your current password to change your password.</span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-6 offset-2">
+                        <form name="passForm" #fP="ngForm" (ngSubmit)="fP.form.valid && changePassword()">
+                            <!-- old password -->
+                            <div class="form-group">
+                                <label>current password</label>
+                                <input type="password" 
+                                       class="form-control" 
+                                       placeholder="current password" 
+                                       name="currentPass"
+                                       [(ngModel)]="currentPass"
+                                       #Cpassword="ngModel"
+                                       [ngClass]="{'is-invalid': fP.submitted && Cpassword.invalid}"
+                                       required minlength="6">
+                                       <!--pass validation-->
+                                <div *ngIf="fP.submitted && Cpassword.invalid">
+                                    <div *ngIf="Cpassword.errors?.minlength" class="invalid">password should be at least 6 caracters</div>
+                                    <div *ngIf="Cpassword.errors?.required" class="invalid">password should not be empty!</div>
+                                </div>
+                            </div>
+
+                            <!-- new password -->
+                            <div class="form-group">
+                                <label >new password</label>
+                                <input type="password" 
+                                       class="form-control" 
+                                       placeholder="new password" 
+                                       name="newpass"
+                                       [(ngModel)]="newPass"
+                                       #Npassword="ngModel"
+                                       [ngClass]="{'is-invalid': fP.submitted && Npassword.invalid}"
+                                       required minlength="6">
+                                       <!--pass validation-->
+                                <div *ngIf="fP.submitted && Npassword.invalid">
+                                    <div *ngIf="Npassword.errors?.minlength" class="invalid">password should be at least 6 caracters</div>
+                                    <div *ngIf="Npassword.errors?.required" class="invalid">password should not be empty!</div>
+                                </div>
+                            </div>
+
+                            <!-- confirmation -->
+                            <div class="form-group">
+                                <label >Password</label>
+                                <input type="password" 
+                                       class="form-control" 
+                                       placeholder="password" 
+                                       name="confirmation" 
+                                       ngModel
+                                       #passocn = "ngModel"
+                                       [ngClass]="{'is-invalid': fP.submitted && passocn.invalid}"
+                                       required minlength="6" appPassConfirm="newpass" />
+                                       <!--pass validation-->
+                                <!-- input validation group -->
+                                <div *ngIf="fP.submitted && passocn.invalid">
+                                    <!-- individual validation errors -->
+                                    <div *ngIf="passocn.errors?.required" class="invalid">confirmation is required</div>
+                                    <div *ngIf="passocn.errors?.appPassConfirm" class="invalid">password do not match</div>
+                                </div>
+                            </div>
+                            
+                            <!--password or email incorrect-->
+                            <div class="alert alert-danger small"  role="alert" *ngIf="passNotif!=null">
+                                {{passNotif}}
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">change</button>
+                            <button hidden type="reset" class="btn btn-primary" #reset>reste</button>
+                        </form>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+        </mat-tab>
+    </mat-tab-group>
+
+</div>

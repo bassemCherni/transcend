@@ -1,0 +1,163 @@
+<div class="row" style="margin-top:20px;">
+
+  <div class="col-md-6 offset-3 ">
+    <div class="card shadow-lg" style="border-radius: 7px;">
+      <div class="card-body">
+        <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && createAccount()" novalidate class="feedback-form">
+          <br>
+          <h1 class="offset-3">Create account</h1>
+          <br>
+          <!-- Name -->
+          <div class="form-group">
+            <label for="name">First Name</label>
+            <input type="text" id="name" 
+              class="form-control" 
+              name="name" 
+              [(ngModel)]="user.user_name" 
+              #name="ngModel" 
+              [ngClass]="{ 'is-invalid': f.submitted && name.invalid }"
+              required />
+            <!-- input validation group -->
+            <div *ngIf="f.submitted && name.invalid">
+              <!-- individual validation errors -->
+              <div *ngIf="name.errors?.required" class="invalid">Field is required</div>
+            </div>
+          </div>
+          <!--last name-->
+          <div class="form-group">
+            <label for="last name">Last Name</label>
+            <input type="text" id="last" 
+              class="form-control" 
+              name="last" 
+              [(ngModel)]="user.last_name" 
+              #last="ngModel" 
+              [ngClass]="{ 'is-invalid': f.submitted && last.invalid }"
+              required />
+            <!-- input validation group -->
+            <div *ngIf="f.submitted && last.invalid">
+              <!-- individual validation errors -->
+              <div *ngIf="last.errors?.required" class="invalid">Field is required</div>
+            </div>
+          </div>
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" 
+              id="email" 
+              class="form-control" 
+              name="email" 
+              [(ngModel)]="account.email" 
+              #email="ngModel" 
+              [ngClass]="{ 'is-invalid': f.submitted && email.invalid }"
+              required email appUniqueEmail/>
+            <!-- input validation group -->
+            <div *ngIf="f.submitted && email.invalid">
+              <!-- individual validation errors -->
+              <div *ngIf="email.errors?.required" class="invalid">Field is required</div>
+              <div *ngIf="email.errors?.email" class="invalid">Field is not a valid email</div>
+              <div *ngIf="email.errors?.appUniqueEmail" class="invalid">email already exists</div>
+            </div>
+           
+          </div>
+          <!--password-->
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" 
+              class="form-control" 
+              name="password" 
+              [(ngModel)]="account.password" 
+              #password="ngModel" 
+              [ngClass]="{ 'is-invalid': f.submitted && password.invalid }"
+              required minlength="6" />
+            <!-- input validation group -->
+            <div *ngIf="f.submitted && password.invalid">
+              <!-- individual validation errors -->
+              <div *ngIf="password.errors?.required" class="invalid">Field is required</div>
+              <div *ngIf="password.errors?.minlength" class="invalid">password should be at least 6 caracters</div>
+            </div>
+          </div>
+
+          <!--password confirmation-->
+          <div class="form-group">
+            <label for="cofirmation">password confirmation</label>
+            <input type="password" id="confirmation" 
+              class="form-control" 
+              name="confirmation" 
+              ngModel
+              #passocn = "ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && passocn.invalid }"
+              required appPassConfirm="password" />
+            <!-- input validation group -->
+            <div *ngIf="f.submitted && passocn.invalid">
+              <!-- individual validation errors -->
+              <div *ngIf="passocn.errors?.required" class="invalid">confirmation is required</div>
+              <div *ngIf="passocn.errors?.appPassConfirm" class="invalid">password do not match</div>
+            </div>
+          </div>
+
+          <!--tel num-->
+          <div class="form-group">
+            <label for="email">tel</label>
+            <input type="text" id="tel" 
+              class="form-control" 
+              name="tel" 
+              [(ngModel)]="user.tel_num" 
+              #tel="ngModel" 
+              [ngClass]="{ 'is-invalid': f.submitted && tel.invalid }"
+              required />
+            <!-- input validation group -->
+            <div *ngIf="f.submitted && tel.invalid">
+              <!-- individual validation errors -->
+              <div *ngIf="tel.errors?.required" class="invalid">Field is required</div>
+            </div>
+          </div>
+
+          <!--occupation-->
+          <div class="form-group">
+            <label for="email">Occupation</label>
+            <input type="text" id="occupation" 
+              class="form-control" 
+              name="occupation" 
+              [(ngModel)]="user.occupation" 
+              #occupation="ngModel" 
+              [ngClass]="{ 'is-invalid': f.submitted && occupation.invalid }"
+              required />
+            <!-- input validation group -->
+            <div *ngIf="f.submitted && occupation.invalid">
+              <!-- individual validation errors -->
+              <div *ngIf="occupation.errors?.required" class="invalid">Field is required</div>
+            </div>
+          </div>
+
+          <!--organizaion-->
+          <div class="form-group">
+            <label for="email">Organizaion</label>
+            <input type="text" id="organizaion" 
+              class="form-control" 
+              name="organizaion" 
+              [(ngModel)]="user.organization" 
+              #organizaion="ngModel" 
+              [ngClass]="{ 'is-invalid': f.submitted && organizaion.invalid }"
+              required />
+            <!-- input validation group -->
+            <div *ngIf="f.submitted && organizaion.invalid">
+              <!-- individual validation errors -->
+              <div *ngIf="organizaion.errors?.required" class="invalid">Field is required</div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary pull-right">
+              <span> Create account</span>
+            </button>
+          </div>
+          <br>
+        </form>
+        <br>
+      </div>
+    </div>
+    <br>
+    <br>
+  </div>
+</div>

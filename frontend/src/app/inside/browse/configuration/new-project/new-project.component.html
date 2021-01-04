@@ -1,0 +1,104 @@
+<button class="close-dialog" (click)="close(false)" mdDialogActions>
+    <span class="material-icons">
+        close
+    </span>
+</button>
+
+<div class="row">
+    <div class="col-md-6 offset-1">
+        <img src="assets/project/project{{icon}}.svg" class="new-ws-icon">
+    </div>
+    <div class="col-md-3 offset-1" style="margin-top: 30px;">
+        <button mat-icon-button (click)="setIcon()">
+            <mat-icon>expand_more</mat-icon>
+        </button>
+    </div>
+</div>
+<form name="form" #f="ngForm" (ngSubmit)="f.form.valid && createProject()">
+    <div class="row">
+        <div class="col-md-6 offset-1">
+            <mat-form-field>
+                <input matInput placeholder="project title" name="projectTitle" [(ngModel)]="projectTitle" #project=ngModel
+                    [ngClass]="{'is-invalid': f.submitted && project.invalid}" required>
+                <div *ngIf="f.submitted && project.invalid">
+                    <div *ngIf="project.errors?.required" class="invalid">field is required!</div>
+                </div>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Scrum master</mat-label>
+                <mat-select [(ngModel)]="scrumMaster" name="sm" #sm=ngModel
+                    [ngClass]="{'is-invalid': f.submitted && sm.invalid}" required>
+                    <mat-option *ngFor="let aff of affMaster" [value]="aff.account.id_account">
+                        {{aff.account.email}}
+                    </mat-option>
+                </mat-select>
+                <div *ngIf="f.submitted && sm.invalid">
+                    <div *ngIf="sm.errors?.required" class="invalid">field is required!</div>
+                </div>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>description</mat-label>
+                <textarea matInput
+                          #desc=ngModel
+                          name="desc"
+                          [ngClass]="{'is-invalid': f.submitted && desc.invalid}" 
+                          required
+                          [(ngModel)]="description"                          
+                          >
+                </textarea>
+                <div *ngIf="f.submitted && desc.invalid">
+                    <div *ngIf="desc.errors?.required" class="invalid">field is required!</div>
+                </div>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>starting date</mat-label>
+                <input matInput 
+                       #start=ngModel
+                       [matDatepicker]="picker1" 
+                       [(ngModel)]="startingDate" 
+                       name="startingDate"
+                       [ngClass]="{'is-invalid': f.submitted && start.invalid}" 
+                       required
+                       >
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+
+                <div *ngIf="f.submitted && start.invalid">
+                    <div *ngIf="start.errors?.required" class="invalid">field is required!</div>
+                </div>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>due date</mat-label>
+                <input matInput
+                       #due=ngModel
+                       [matDatepicker]="picker2" 
+                       [(ngModel)]="dueDate" 
+                       [min]="startingDate" 
+                       name="dueDate"
+                       [ngClass]="{'is-invalid': f.submitted && due.invalid}"
+                       required
+                       >
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+
+                <div *ngIf="f.submitted && due.invalid">
+                    <div *ngIf="due.errors?.required" class="invalid">field is required!</div>
+                </div>
+            </mat-form-field>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 offset-1">
+            <button class="btn btn-primary" type="submit" mdDialogActions>create</button>
+        </div>
+
+        <div class="col-md-3 offset-md-1">
+            <a class="btn btn-light" (click)="close(false)" mdDialogActions>cancel</a>
+        </div>
+    </div>
+</form>

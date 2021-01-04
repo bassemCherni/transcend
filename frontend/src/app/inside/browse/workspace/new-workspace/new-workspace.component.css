@@ -1,0 +1,15 @@
+.close-dialog {
+    background-color: white; 
+    border: 0px; 
+    float: right;
+    width: 20px;
+    height: 20px;
+    margin-top: -20px;
+    margin-right: -10px;
+}
+
+.new-ws-icon {
+    border-radius: 25px;
+    height: 100px;
+    width: 100px;
+}

@@ -1,0 +1,252 @@
+/* You can add global styles to this file, and also import other style files */
+@import url(../node_modules/bootstrap/dist/css/bootstrap.min.css);
+@import url(../node_modules/font-awesome/css/font-awesome.css);
+
+.theme-color {
+    color: #047cfb;
+}
+
+.theme-color-2 {
+    background-color: #0444a4;
+}
+
+.theme-color-3 {
+    background-color: whitesmoke;
+}
+
+.white {
+    color: whitesmoke;
+}
+
+.gray {
+    color: gray;
+}
+
+.link-menu {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: small;
+    font-weight: bold;
+}
+
+.menu-button :hover {
+    background-color: #1b56b5;
+}
+
+.menu-button2 :hover {
+    background-color: rgb(216, 211, 211);
+}
+
+.menu-icons {
+    color: whitesmoke;
+    margin-right: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.menu-icons2 {
+    color: rgb(61, 58, 58);
+    margin-right: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.config-menu {
+    width: 10px !important;
+    height: 10px !important;
+    margin-top: -10px !important;
+  }
+
+.active-link {
+    background-color: #04347c;
+}
+
+.active-link2 {
+    background-color: rgb(216, 211, 211);
+}
+
+.hover-list {
+    
+    cursor: pointer;
+}
+
+.invalid{
+    color: red;
+    font-size: small;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+  
+.example-full-width {
+width: 100%;
+}
+
+.search-ws {
+    width: 20%;
+    height: 50px;
+}
+
+.w-logo {
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.issue-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 5%;
+}
+
+.star {
+    color: gainsboro;
+    size: 50px;
+}
+
+.star-fav {
+    border-color: rgb(250, 233, 0);
+    color: rgb(250, 233, 0);
+}
+
+.epic {
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+
+::-webkit-scrollbar {
+    width: 8px;               /* width of the entire scrollbar */
+}
+::-webkit-scrollbar-track {
+    background: gainsboro;        /* color of the tracking area */
+}
+::-webkit-scrollbar-thumb {
+    background-color: gray;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 1px solid gainsboro  /* creates padding around scroll thumb */
+}
+
+.over-shadow {
+    -webkit-box-shadow: inset 10px -5px 5px -5px #DDE8EB !important;
+    box-shadow: inset 10px -5px 5px -5px #DDE8EB !important;
+}
+
+.over-shadow2 {
+    -webkit-box-shadow: inset 10px -5px 5px -5px #B0AEBF !important;
+    box-shadow: inset 10px -5px 5px -5px #B0AEBF !important;
+}
+
+.e0 {
+    background-color: orange;
+  }
+  
+  .e1 {
+    background-color: #d1061b;
+    
+  }
+  
+  .e2 {
+    background-color: #4e169c;
+  }
+  
+  .e3 {
+    background-color: #fcba03;
+  }
+  
+  .e4 {
+    background-color: #a9fc03;
+  }
+  
+  .e5 {
+    background-color: #0a92d1;
+    
+  }
+  
+  .e6 {
+    background-color: #0dd67c;
+  }
+  
+  .e7 {
+    background-color: #6a0599;
+    
+  }
+  
+  .e8 {
+    background-color: #04d904;
+  }
+  
+  .e9 {
+    background-color: #bf154e;
+    
+  }
+  
+  .e10 {
+    background-color: #17299c;
+  }
+  
+  .e11 {
+    background-color: #fcba03;
+  }
+  
+  .e12 {
+    background-color: #9a44c2;
+  }
+  
+  .e13 {
+    background-color: #6a0599;
+  }
+  
+  .e14 {
+    background-color: #0dd6b5;
+  }
+  
+  .e15 {
+    background-color: #1e7cc9;
+  }
+  
+  .e16 {
+    background-color: #bf154e;
+  }
+  
+  .e17 {
+    background-color: #04d904;
+  }
+  
+  .e18 {
+    background-color: #d1061b;
+  }
+  
+  .e19 {
+    background-color: #d1061b;
+  }
+  
+  .e20 {
+    background-color: orange;
+  }
+  
+  .e21 {
+    background-color: #bf154e;
+  }
+  
+  .e22 {
+    background-color: #bf154e;
+    
+  }
+
+  .close-dialog {
+    background-color: white; 
+    border: 0px; 
+    float: right;
+    width: 20px;
+    height: 20px;
+    margin-top: -20px;
+    margin-right: -10px;
+}
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
